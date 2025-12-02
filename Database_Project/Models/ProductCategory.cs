@@ -11,5 +11,4 @@ public class ProductCategory
     
     // List of products in the category
     public List<Product> Products { get; set; } = new();
-    
 }
