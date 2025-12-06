@@ -35,7 +35,7 @@ public static class CategoryHelper
         await using var db = new ShopContext();
 
         Console.Write("Name: ");
-        var categoryName = Console.ReadLine()?.Trim() ?? string.Empty;
+        var categoryName = (Console.ReadLine() ?? string.Empty).Trim();
         if (string.IsNullOrWhiteSpace(categoryName) || categoryName.Length > 100)
         {
             Console.WriteLine("Name cannot be empty or more than 100 characters.");
@@ -50,7 +50,7 @@ public static class CategoryHelper
         }
 
         Console.Write("Description (optional): ");
-        var categoryDescription = Console.ReadLine()?.Trim() ?? string.Empty;
+        var categoryDescription = (Console.ReadLine() ?? string.Empty).Trim();
         if (categoryDescription.Length > 100)
         {
             Console.WriteLine("Description cannot exceed 100 characters.");
