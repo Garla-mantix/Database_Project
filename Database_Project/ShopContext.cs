@@ -107,6 +107,9 @@ public class ShopContext : DbContext
             p.Property(e => e.ProductsInStock)
                 .IsRequired();
             
+            // UNIQUE-index for ProductName
+            p.HasIndex(e => e.ProductName).IsUnique();
+            
             // FK
             p.HasOne(e => e.ProductCategory)
                 .WithMany(pc => pc.Products)

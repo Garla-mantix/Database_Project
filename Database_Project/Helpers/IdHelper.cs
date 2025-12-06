@@ -69,4 +69,27 @@ public static class IdHelper
 
         return productId;
     }
+    
+    // Helper method for getting categoryId
+    public static async Task<int> GetCategoryId()
+    {
+        Console.Write("Enter category ID: ");
+        var categoryInput = Console.ReadLine()?.Trim();
+        
+        if (!int.TryParse(categoryInput, out var categoryId))
+        {
+            Console.WriteLine("Invalid input. Please enter a number.");
+        }
+            
+        // Check if that ProductId exists
+        await using var db = new ShopContext();
+        if (!await db.ProductCategories.AnyAsync(a => a.ProductCategoryId == categoryId))
+        {
+            Console.WriteLine($"No product found with ID {categoryId}.");
+            return 0;
+        }
+
+        return categoryId;
+    }
+    
 }
