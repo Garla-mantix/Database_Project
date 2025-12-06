@@ -6,7 +6,7 @@ public class ProductCategory
     public int ProductCategoryId { get; set; }
     
     [Required, MaxLength(100)]
-    public string ProductCategoryName { get; set; }
+    public string? ProductCategoryName { get; set; }
     
     [MaxLength(100)]
     public string? ProductCategoryDescription { get; set; }
