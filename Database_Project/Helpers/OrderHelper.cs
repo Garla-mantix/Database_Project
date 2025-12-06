@@ -123,6 +123,13 @@ public static class OrderHelper
                     Console.WriteLine("Product not found.");
                     continue;
                 }
+                
+                // Check if product is available
+                if (product.ProductsInStock <= 0)
+                {
+                    Console.WriteLine($"Cannot add '{product.ProductName}' — no stock available.");
+                    continue;
+                }
 
                 // Quantity input loop
                 int quantity;
