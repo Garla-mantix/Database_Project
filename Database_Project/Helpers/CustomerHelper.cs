@@ -83,18 +83,24 @@ public static class CustomerHelper
         Console.Write("New name (leave empty to keep): ");
         var name = Console.ReadLine()?.Trim();
         if (!string.IsNullOrWhiteSpace(name))
+        {
             customer.CustomerName = name;
-
+        }
+        
         Console.Write("New city (leave empty to keep): ");
         var city = Console.ReadLine()?.Trim();
         if (!string.IsNullOrWhiteSpace(city))
+        {
             customer.CustomerCity = city;
+        }
         
         Console.Write("New email (leave empty to keep): ");
         var email = Console.ReadLine()?.Trim();
         if (!string.IsNullOrWhiteSpace(email))
+        {
             customer.CustomerEmail = email;
-
+        }
+        
         await db.SaveChangesAsync();
         Console.WriteLine("Customer updated!");
     }

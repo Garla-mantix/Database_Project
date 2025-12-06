@@ -195,10 +195,17 @@ static async Task ProductMenuAsync()
             await ProductHelper.ListProductsAsync();
             break;
         case "2":
+            await ProductHelper.AddProductAsync();
             break;
         case "3":
+            await ProductHelper.ListProductsAsync();
+            var productId = await IdHelper.GetProductId();
+            await ProductHelper.EditProductAsync(productId);
             break;
         case "4":
+            await ProductHelper.ListProductsAsync();
+            var prodId = await IdHelper.GetProductId();
+            await ProductHelper.DeleteProductAsync(prodId);
             break;
         case "5":
             Console.WriteLine("Back to main menu...");
@@ -227,10 +234,17 @@ static async Task CategoryMenuAsync()
             await CategoryHelper.ListCategoriesAsync();
             break;
         case "2":
+            await CategoryHelper.AddCategoryAsync();
             break;
         case "3":
+            await CategoryHelper.ListCategoriesAsync();
+            var catId = await IdHelper.GetCategoryId();
+            await CategoryHelper.EditCategoryAsync(catId);
             break;
         case "4":
+            await CategoryHelper.ListCategoriesAsync();
+            var cId = await IdHelper.GetCategoryId();
+            await CategoryHelper.DeleteCategoryAsync(cId);
             break;
         case "5":
             Console.WriteLine("Back to main menu...");
