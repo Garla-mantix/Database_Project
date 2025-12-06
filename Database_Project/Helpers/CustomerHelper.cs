@@ -26,7 +26,7 @@ public static class CustomerHelper
         await using var db = new ShopContext();
         
         Console.Write("Name: ");
-        var customerName = Console.ReadLine() ?? string.Empty;
+        var customerName = (Console.ReadLine() ?? string.Empty).Trim();
         if (string.IsNullOrWhiteSpace(customerName) || customerName.Length > 100)
         {
             Console.WriteLine("Name cannot be empty or more than 100 characters.");
@@ -34,15 +34,15 @@ public static class CustomerHelper
         }
         
         Console.Write("City: ");
-        var customerCity = Console.ReadLine() ?? string.Empty;
+        var customerCity = (Console.ReadLine() ?? string.Empty).Trim();
         if (string.IsNullOrWhiteSpace(customerCity) || customerCity.Length > 100)
         {
-            Console.WriteLine("Country cannot be empty or more than 100 characters.");
+            Console.WriteLine("City cannot be empty or more than 100 characters.");
             return;
         }
         
         Console.Write("Email: ");
-        var customerEmail = Console.ReadLine() ?? string.Empty;
+        var customerEmail = (Console.ReadLine() ?? string.Empty).Trim();
         if (string.IsNullOrWhiteSpace(customerEmail) || customerEmail.Length > 100)
         {
             Console.WriteLine("Email cannot be empty or more than 100 characters.");
@@ -101,20 +101,35 @@ public static class CustomerHelper
             customer.CustomerEmail = email;
         }
         
-        await db.SaveChangesAsync();
-        Console.WriteLine("Customer updated!");
+        try
+        {
+            await db.SaveChangesAsync();
+            Console.WriteLine("Customer updated!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("DB error: " + ex.Message);
+        }
     }
 
     // Deleting customer
     public static async Task DeleteCustomerAsync(int custId)
     {
-        await using var  db = new ShopContext();
+        await using var db = new ShopContext();
         
         var customer = await db.Customers.FindAsync(custId);
 
         if (customer == null)
         {
             Console.WriteLine("Customer not found.");
+            return;
+        }
+        
+        Console.Write($"Are you sure you want to delete '{customer.CustomerName}'? (y/n): ");
+        var confirm = Console.ReadLine()?.Trim().ToLower();
+        if (confirm != "y")
+        {
+            Console.WriteLine("Deletion cancelled.");
             return;
         }
         

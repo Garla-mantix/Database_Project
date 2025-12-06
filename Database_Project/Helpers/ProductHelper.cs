@@ -175,6 +175,14 @@ public static class ProductHelper
             return;
         }
         
+        Console.Write($"Are you sure you want to delete '{product.ProductName}'? (y/n): ");
+        var confirm = Console.ReadLine()?.Trim().ToLower();
+        if (confirm != "y")
+        {
+            Console.WriteLine("Deletion cancelled.");
+            return;
+        }
+        
         db.Products.Remove(product);
         await db.SaveChangesAsync();
         Console.WriteLine("Product deleted!");
