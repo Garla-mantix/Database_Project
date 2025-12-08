@@ -10,7 +10,7 @@ public static class OrderHelper
         var orders = await db.Orders
             .Include(o => o.Customer)
             .AsNoTracking()
-            .OrderBy(c => c.OrderId)
+            .OrderByDescending(c => c.OrderDate)
             .ToListAsync();
         
         Console.WriteLine($"\n{"Orders",25}");
