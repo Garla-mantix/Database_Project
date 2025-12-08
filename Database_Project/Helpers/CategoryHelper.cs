@@ -156,4 +156,25 @@ public static class CategoryHelper
         await db.SaveChangesAsync();
         Console.WriteLine("Category deleted!");
     }
+    
+    // VIEW - list category sales
+    public static async Task ListCategorySalesAsync()
+    {
+        await using var db = new ShopContext();
+
+        var sales = await db.Set<CategorySalesView>()
+            .AsNoTracking()
+            .OrderByDescending(cs => (double)cs.TotalSales)
+            .ToListAsync();
+
+        Console.WriteLine($"\n{"Category Sales Report",35}");
+        Console.WriteLine($"{"Category",-30} | {"Sold",-5} | {"Revenue",-12}");
+        Console.WriteLine(new string('-', 55));
+
+        foreach (var cs in sales)
+        {
+            Console.WriteLine($"{cs.ProductCategoryName,-30} | {cs.TotalQuantity,-5} | {cs.TotalSales,-12:C}");
+        }
+    }
+
 }

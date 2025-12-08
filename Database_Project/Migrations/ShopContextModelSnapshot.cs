@@ -17,6 +17,26 @@ namespace Database_Project.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
 
+            modelBuilder.Entity("Database_Project.Models.CategorySalesView", b =>
+                {
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("TotalSales")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("CategorySales", (string)null);
+                });
+
             modelBuilder.Entity("Database_Project.Models.Customer", b =>
                 {
                     b.Property<int>("CustomerId")
@@ -43,6 +63,27 @@ namespace Database_Project.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Database_Project.Models.DeletedCustomerLog", b =>
+                {
+                    b.Property<string>("CustomerCity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("DeletedCustomersLog", (string)null);
                 });
 
             modelBuilder.Entity("Database_Project.Models.Order", b =>
@@ -149,6 +190,33 @@ namespace Database_Project.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Database_Project.Models.ProductSalesView", b =>
+                {
+                    b.Property<decimal>("PricePerUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("TotalSales")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("ProductSales", (string)null);
                 });
 
             modelBuilder.Entity("Database_Project.Models.Order", b =>

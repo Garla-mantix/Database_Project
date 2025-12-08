@@ -9,6 +9,13 @@ public class ShopContext : DbContext
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
     
+    // Table for logging deleted customers
+    public DbSet<DeletedCustomerLog> DeletedCustomersLog { get; set; }
+    
+    // VIEWS
+    public DbSet<CategorySalesView> CategorySales { get; set; }
+    public DbSet<ProductSalesView> ProductSales { get; set; }
+    
     // Telling EF Core to use SQLite and where to put the file
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -16,7 +23,7 @@ public class ShopContext : DbContext
         optionsBuilder.UseSqlite($"Filename={dbPath}");
     }
     
-        // OnModelCreating (fine-tuning the model)
+    // OnModelCreating (fine-tuning the model)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Customer
@@ -130,6 +137,27 @@ public class ShopContext : DbContext
             // UNIQUE-index for ProductCategoryName
             pc.HasIndex(e => e.ProductCategoryName).IsUnique();
         });
+        
+        // VIEWS
+        // Category sales view
+        modelBuilder.Entity<CategorySalesView>(e =>
+        {
+            e.HasNoKey();
+            e.ToView("CategorySales");
+        });
+
+        // Product sales view
+        modelBuilder.Entity<ProductSalesView>(e =>
+        {
+            e.HasNoKey();
+            e.ToView("ProductSales");
+        });
+        
+        // TRIGGER
+        modelBuilder.Entity<DeletedCustomerLog>(e =>
+        {
+            e.HasNoKey();
+            e.ToTable("DeletedCustomersLog"); 
+        });
     }
-    
 }

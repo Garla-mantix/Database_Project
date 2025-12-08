@@ -187,4 +187,26 @@ public static class ProductHelper
         await db.SaveChangesAsync();
         Console.WriteLine("Product deleted!");
     }
+    
+    // VIEW - product sales
+    public static async Task ListProductSalesAsync()
+    {
+        await using var db = new ShopContext();
+
+        var sales = await db.Set<ProductSalesView>()
+            .AsNoTracking()
+            .OrderByDescending(ps => (double)ps.TotalSales)
+            .ToListAsync();
+
+        Console.WriteLine($"\n{"Product Sales Report",50}");
+        Console.WriteLine($"{"Product",-35} | {"Category",-20} | {"Price",10} | {"Sold",5} | {"Revenue",12}");
+        Console.WriteLine(new string('-', 90));
+
+        foreach (var ps in sales)
+        {
+            Console.WriteLine(
+                $"{ps.ProductName,-35} | {ps.ProductCategoryName,-20} | {ps.PricePerUnit,10:C} | " +
+                $"{ps.TotalQuantity,5} | {ps.TotalSales,12:C}");
+        }
+    }
 }

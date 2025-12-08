@@ -174,4 +174,27 @@ public static class CustomerHelper
                               $" {customer.CustomerCity,-25} | {customer.CustomerEmail,-25}");
         }
     }
+    
+    // Show TRIGGER – Deleted Customers Log
+    public static async Task ListDeletedCustomersAsync()
+    {
+        await using var db = new ShopContext();
+
+        var logs = await db.Set<DeletedCustomerLog>()
+            .AsNoTracking()
+            .OrderByDescending(log => log.DeletedAt)
+            .ToListAsync();
+
+        Console.WriteLine($"\n{"Deleted Customers Log",50}");
+        Console.WriteLine($"{"ID",-4} | {"Name",-25} | {"Email",-30} | {"City",-20} | {"Deleted At",-20}");
+        Console.WriteLine(new string('-', 110));
+
+        foreach (var log in logs)
+        {
+            Console.WriteLine(
+                $"{log.CustomerId,-4} | {log.CustomerName,-25} | {log.CustomerEmail,-30} | " +
+                $"{log.CustomerCity,-20} | {log.DeletedAt,-20:yyyy-MM-dd HH:mm}");
+        }
+    }
+
 }

@@ -47,28 +47,28 @@ public class SeedDb
             db.Products.AddRange(
                 new Product
                 {
-                    ProductName = "Dina Ögon – Oas (CD)",
+                    ProductName = "Dina Ögon – Oas",
                     PricePerUnit = 199m,
                     ProductsInStock = 500,
                     ProductCategoryId = categories.First(c => c.ProductCategoryName == "CD").ProductCategoryId
                 },
                 new Product
                 {
-                    ProductName = "Shuggie Otis – Freedom Flight (Vinyl)",
+                    ProductName = "Shuggie Otis – Freedom Flight",
                     PricePerUnit = 299m,
                     ProductsInStock = 250,
                     ProductCategoryId = categories.First(c => c.ProductCategoryName == "Vinyl").ProductCategoryId
                 },
                 new Product
                 {
-                    ProductName = "Nationalteatern – Barn av vår tid (Cassette)",
+                    ProductName = "Nationalteatern – Barn av vår tid",
                     PricePerUnit = 150m,
                     ProductsInStock = 100,
                     ProductCategoryId = categories.First(c => c.ProductCategoryName == "Cassette").ProductCategoryId
                 },
                 new Product
                 {
-                    ProductName = "Braxton Cook – No Doubt (Digital)",
+                    ProductName = "Braxton Cook – No Doubt",
                     PricePerUnit = 89m,
                     ProductsInStock = 5000,
                     ProductCategoryId = categories.First(c => c.ProductCategoryName == "Digital").ProductCategoryId
@@ -128,12 +128,12 @@ public class SeedDb
                     {
                         new OrderRow
                         {
-                            ProductId = products.First(p => p.ProductName == "Dina Ögon – Oas (CD)").ProductId,
+                            ProductId = products.First(p => p.ProductName == "Dina Ögon – Oas").ProductId,
                             OrderRowQuantity = 1,
-                            OrderRowTotal = products.First(p => p.ProductName == "Dina Ögon – Oas (CD)").PricePerUnit * 1
+                            OrderRowTotal = products.First(p => p.ProductName == "Dina Ögon – Oas").PricePerUnit * 1
                         }
                     },
-                    OrderTotal = products.First(p => p.ProductName == "Dina Ögon – Oas (CD)").PricePerUnit * 1
+                    OrderTotal = products.First(p => p.ProductName == "Dina Ögon – Oas").PricePerUnit * 1
                 },
                 new Order
                 {
@@ -144,12 +144,12 @@ public class SeedDb
                     {
                         new OrderRow
                         {
-                            ProductId = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight (Vinyl)").ProductId,
+                            ProductId = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight").ProductId,
                             OrderRowQuantity = 2,
-                            OrderRowTotal = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight (Vinyl)").PricePerUnit * 2
+                            OrderRowTotal = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight").PricePerUnit * 2
                         }
                     },
-                    OrderTotal = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight (Vinyl)").PricePerUnit * 2
+                    OrderTotal = products.First(p => p.ProductName == "Shuggie Otis – Freedom Flight").PricePerUnit * 2
                 },
                 new Order
                 {
@@ -160,12 +160,12 @@ public class SeedDb
                     {
                         new OrderRow
                         {
-                            ProductId = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid (Cassette)").ProductId,
+                            ProductId = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid").ProductId,
                             OrderRowQuantity = 3,
-                            OrderRowTotal = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid (Cassette)").PricePerUnit * 3
+                            OrderRowTotal = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid").PricePerUnit * 3
                         }
                     },
-                    OrderTotal = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid (Cassette)").PricePerUnit * 3
+                    OrderTotal = products.First(p => p.ProductName == "Nationalteatern – Barn av vår tid").PricePerUnit * 3
                 },
                 new Order
                 {
@@ -176,12 +176,12 @@ public class SeedDb
                     {
                         new OrderRow
                         {
-                            ProductId = products.First(p => p.ProductName == "Braxton Cook – No Doubt (Digital)").ProductId,
+                            ProductId = products.First(p => p.ProductName == "Braxton Cook – No Doubt").ProductId,
                             OrderRowQuantity = 1,
-                            OrderRowTotal = products.First(p => p.ProductName == "Braxton Cook – No Doubt (Digital)").PricePerUnit * 1
+                            OrderRowTotal = products.First(p => p.ProductName == "Braxton Cook – No Doubt").PricePerUnit * 1
                         }
                     },
-                    OrderTotal = products.First(p => p.ProductName == "Braxton Cook – No Doubt (Digital)").PricePerUnit * 1
+                    OrderTotal = products.First(p => p.ProductName == "Braxton Cook – No Doubt").PricePerUnit * 1
                 }
             );
 
