@@ -44,10 +44,11 @@ static async Task CustomerMenuAsync()
 {
     Console.WriteLine("\nCustomer Menu:");
     Console.WriteLine("1. List all customers");
-    Console.WriteLine("2. Add new customer");
-    Console.WriteLine("3. Edit existing customer");
-    Console.WriteLine("4. Delete existing customer");
-    Console.WriteLine("5. Back to main menu");
+    Console.WriteLine("2. Search for customer by name");
+    Console.WriteLine("3. Add new customer");
+    Console.WriteLine("4. Edit existing customer");
+    Console.WriteLine("5. Delete existing customer");
+    Console.WriteLine("6. Back to main menu");
 
     var choice = Console.ReadLine()?.Trim() ?? string.Empty;
 
@@ -57,19 +58,23 @@ static async Task CustomerMenuAsync()
             await CustomerHelper.ListCustomersAsync();
             break;
         case "2":
-            await CustomerHelper.AddCustomerAsync();
+            var search = await SearchHelper.SearchNameAsync();
+            await CustomerHelper.SearchCustomerAsync(search);
             break;
         case "3":
+            await CustomerHelper.AddCustomerAsync();
+            break;
+        case "4":
             await CustomerHelper.ListCustomersAsync();
             var customerId = await IdHelper.GetCustomerId();
             await CustomerHelper.EditCustomerAsync(customerId);
             break;
-        case "4":
+        case "5":
             await CustomerHelper.ListCustomersAsync();
             var custId = await IdHelper.GetCustomerId();
             await CustomerHelper.DeleteCustomerAsync(custId);
             break;
-        case "5":
+        case "6":
             Console.WriteLine("Back to main menu...");
             break;
         default:

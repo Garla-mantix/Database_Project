@@ -137,4 +137,41 @@ public static class CustomerHelper
         await db.SaveChangesAsync();
         Console.WriteLine("Customer deleted!");
     }
+    
+    // Searching for customer by name
+    public static async Task SearchCustomerAsync(string search)
+    {
+        await using var  db = new ShopContext();
+    
+        if (string.IsNullOrWhiteSpace(search))
+        {
+            Console.WriteLine("Search cannot be empty.");
+            return;
+        }
+    
+        var customers = await db.Customers
+            .AsNoTracking()
+            .OrderBy(b => b.CustomerName)
+            .ToListAsync();
+    
+        var filteredCustomers = customers
+            .Where(b => b.CustomerName != null && b.CustomerName.Contains(search, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+   
+        if (filteredCustomers.Count == 0)
+        {
+            Console.WriteLine($"No customers found matching '{search}'.");
+            return;
+        }
+    
+        Console.WriteLine($"\n{"Customers", 25}");
+        Console.WriteLine($"{"ID",-4} | {"Name",-25} | {"City",-25} | {"Email",-25}");
+        Console.WriteLine(new string('-', 85));
+
+        foreach (var customer in filteredCustomers)
+        {
+            Console.WriteLine($"{customer.CustomerId,-4} | {customer.CustomerName,-25} |" +
+                              $" {customer.CustomerCity,-25} | {customer.CustomerEmail,-25}");
+        }
+    }
 }
