@@ -48,7 +48,8 @@ static async Task CustomerMenuAsync()
     Console.WriteLine("3. Add new customer");
     Console.WriteLine("4. Edit existing customer");
     Console.WriteLine("5. Delete existing customer");
-    Console.WriteLine("6. Back to main menu");
+    Console.WriteLine("6. View deleted customers log");
+    Console.WriteLine("7. Back to main menu");
 
     var choice = Console.ReadLine()?.Trim() ?? string.Empty;
 
@@ -75,6 +76,9 @@ static async Task CustomerMenuAsync()
             await CustomerHelper.DeleteCustomerAsync(custId);
             break;
         case "6":
+            await CustomerHelper.ListDeletedCustomersAsync();
+            break;
+        case "7":
             Console.WriteLine("Back to main menu...");
             break;
         default:
@@ -190,7 +194,8 @@ static async Task ProductMenuAsync()
     Console.WriteLine("2. Add new product");
     Console.WriteLine("3. Edit existing product");
     Console.WriteLine("4. Delete existing product");
-    Console.WriteLine("5. Back to main menu");
+    Console.WriteLine("5. View product sales");
+    Console.WriteLine("6. Back to main menu");
 
     var choice = Console.ReadLine()?.Trim() ?? string.Empty;
 
@@ -213,6 +218,9 @@ static async Task ProductMenuAsync()
             await ProductHelper.DeleteProductAsync(prodId);
             break;
         case "5":
+            await ProductHelper.ListProductSalesAsync();
+            break;
+        case "6":
             Console.WriteLine("Back to main menu...");
             break;
         default:
@@ -229,7 +237,8 @@ static async Task CategoryMenuAsync()
     Console.WriteLine("2. Add new category");
     Console.WriteLine("3. Edit existing category");
     Console.WriteLine("4. Delete existing category");
-    Console.WriteLine("5. Back to main menu");
+    Console.WriteLine("5. View category sales");
+    Console.WriteLine("6. Back to main menu");
 
     var choice = Console.ReadLine()?.Trim() ?? string.Empty;
 
@@ -252,6 +261,9 @@ static async Task CategoryMenuAsync()
             await CategoryHelper.DeleteCategoryAsync(cId);
             break;
         case "5":
+            await CategoryHelper.ListCategorySalesAsync();
+            break;
+        case "6":
             Console.WriteLine("Back to main menu...");
             break;
         default:
