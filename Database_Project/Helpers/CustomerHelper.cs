@@ -15,8 +15,10 @@ public static class CustomerHelper
 
         foreach (var customer in customers)
         {
+            var decryptedEmail = EncryptionHelper.Decrypt(customer.CustomerEmail ?? string.Empty);
+            
             Console.WriteLine($"{customer.CustomerId,-4} | {customer.CustomerName,-25} |" +
-                              $" {customer.CustomerCity,-25} | {customer.CustomerEmail,-25}");
+                              $" {customer.CustomerCity,-25} | {decryptedEmail,-25}");
         }
     }
     
@@ -53,7 +55,7 @@ public static class CustomerHelper
         {
             CustomerName = customerName,
             CustomerCity = customerCity,
-            CustomerEmail = customerEmail,
+            CustomerEmail = EncryptionHelper.Encrypt(customerEmail),
         });
         
         try
@@ -98,7 +100,7 @@ public static class CustomerHelper
         var email = Console.ReadLine()?.Trim();
         if (!string.IsNullOrWhiteSpace(email))
         {
-            customer.CustomerEmail = email;
+            customer.CustomerEmail = EncryptionHelper.Encrypt(email);
         }
         
         try
@@ -170,8 +172,10 @@ public static class CustomerHelper
 
         foreach (var customer in filteredCustomers)
         {
+            var decryptedEmail = EncryptionHelper.Decrypt(customer.CustomerEmail ?? string.Empty);
+            
             Console.WriteLine($"{customer.CustomerId,-4} | {customer.CustomerName,-25} |" +
-                              $" {customer.CustomerCity,-25} | {customer.CustomerEmail,-25}");
+                              $" {customer.CustomerCity,-25} | {decryptedEmail,-25}");
         }
     }
     
@@ -191,10 +195,10 @@ public static class CustomerHelper
 
         foreach (var log in logs)
         {
-            Console.WriteLine(
-                $"{log.CustomerId,-4} | {log.CustomerName,-25} | {log.CustomerEmail,-30} | " +
-                $"{log.CustomerCity,-20} | {log.DeletedAt,-20:yyyy-MM-dd HH:mm}");
+            var decryptedEmail = EncryptionHelper.Decrypt(log.CustomerEmail ?? string.Empty);
+            
+            Console.WriteLine($"{log.CustomerId,-4} | {log.CustomerName,-25} | {decryptedEmail,-30} | " +
+                              $"{log.CustomerCity,-20} | {log.DeletedAt,-20:yyyy-MM-dd HH:mm}");
         }
     }
-
 }
