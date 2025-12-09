@@ -14,6 +14,6 @@ public class Customer
     [MaxLength(100)]
     public string? CustomerCity { get; set; }
     
-    // Lista av Order
+    // List of Orders
     public List<Order> Orders { get; set; } = new();
 }

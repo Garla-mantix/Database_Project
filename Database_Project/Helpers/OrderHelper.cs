@@ -2,7 +2,9 @@ namespace Database_Project.Helpers;
 
 public static class OrderHelper
 {
-    // Listing orders
+    /// <summary>
+    /// Lists orders.
+    /// </summary>
     public static async Task ListOrdersAsync()
     {
         await using var db = new ShopContext();
@@ -25,7 +27,10 @@ public static class OrderHelper
         }
     }
 
-    // Order details
+    /// <summary>
+    /// Displays order details.
+    /// </summary>
+    /// <param name="orderId">ID of order to display.</param>
     public static async Task OrderDetailsAsync(int orderId)
     {
         await using var db = new ShopContext();
@@ -66,7 +71,9 @@ public static class OrderHelper
         Console.WriteLine($"{"Total",-35} | {"",-15} | {"",-10} | {"",-10} | {order.OrderTotal,-12:C}");
     }
 
-    // Adding order
+    /// <summary>
+    /// Adds an order to a customer.
+    /// </summary>
     public static async Task AddOrderAsync()
     {
         await using var db = new ShopContext();
@@ -189,7 +196,7 @@ public static class OrderHelper
                 return;
             }
 
-            // Save and commit
+            // Save and commit transaction
             await db.SaveChangesAsync();
             await transaction.CommitAsync();
 
@@ -203,10 +210,14 @@ public static class OrderHelper
         }
     }
 
-    // Delete order
+    /// <summary>
+    /// Deletes an order.
+    /// </summary>
+    /// <param name="ordId">ID of order to be deleted.</param>
     public static async Task DeleteOrderAsync(int ordId)
     {
         await using var db = new ShopContext();
+        
         var order = await db.Orders.FindAsync(ordId);
 
         if (order == null)
@@ -228,7 +239,10 @@ public static class OrderHelper
         Console.WriteLine("Order deleted!");
     }
 
-    // List orders filtered by status
+    /// <summary>
+    /// List orders filtered by status.
+    /// </summary>
+    /// <param name="status">Status to filter by.</param>
     public static async Task ListOrdersByStatusAsync(string status)
     {
         await using var db = new ShopContext();
@@ -250,7 +264,10 @@ public static class OrderHelper
         }
     }
 
-    // List orders filtered by customer
+    /// <summary>
+    /// List orders filtered by customer.
+    /// </summary>
+    /// <param name="customerId">ID of customer to filter by.</param>
     public static async Task ListOrdersByCustomerAsync(int customerId)
     {
         await using var db = new ShopContext();
@@ -271,7 +288,11 @@ public static class OrderHelper
         }
     }
 
-    // Paged view of orders
+    /// <summary>
+    /// Lists orders in pages.
+    /// </summary>
+    /// <param name="page">What page to show.</param>
+    /// <param name="pageSize">How many orders to show on that page.</param>
     public static async Task ListOrdersPagedAsync(int page, int pageSize)
     {
         await using var db = new ShopContext();
@@ -302,7 +323,9 @@ public static class OrderHelper
         }
     }
     
-    // Update order
+    /// <summary>
+    /// Updates an order.
+    /// </summary>
     public static async Task UpdateOrderAsync()
     {
         await using var db = new ShopContext();
@@ -340,7 +363,7 @@ public static class OrderHelper
 
         try
         {
-            bool done = false;
+            var done = false;
             while (!done)
             {
                 Console.WriteLine("\n1. Add product to order");
@@ -460,7 +483,7 @@ public static class OrderHelper
                         var confirm = (Console.ReadLine() ?? string.Empty).Trim().ToLower();
                         if (confirm == "y")
                         {
-                            // If no rows left, cancel entire order
+                            // If no rows remain, cancel entire order
                             if (!order.OrderRows.Any())
                             {
                                 db.Orders.Remove(order);

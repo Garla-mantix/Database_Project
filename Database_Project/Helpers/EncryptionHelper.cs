@@ -1,6 +1,6 @@
 namespace Database_Project.Helpers;
 
-public class EncryptionHelper
+public static class EncryptionHelper
 {
     // Key
     private const byte Key = 0x42; // 66 bytes

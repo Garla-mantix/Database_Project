@@ -1,10 +1,12 @@
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Database_Project.Helpers;
 
-public class AdminHelper
+public static class AdminHelper
 {
+    /// <summary>
+    /// Logs in admin.
+    /// </summary>
+    /// <param name="maxAttempts">Number of attempts before returning false.</param>
+    /// <returns>True if authenticated.</returns>
     public static async Task<bool> TryLoginAsync(int maxAttempts = 3)
     {
         await using var db = new ShopContext();
@@ -62,7 +64,7 @@ public class AdminHelper
     /// <summary>
     /// Masks password-input with asterisks.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Password.</returns>
     private static string ReadPassword()
     {
         var password = new StringBuilder();

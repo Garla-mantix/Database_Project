@@ -2,7 +2,10 @@ namespace Database_Project.Helpers;
 
 public static class IdHelper
 {
-    // Helper method for getting customerId
+    /// <summary>
+    /// Helper method for getting customerId.
+    /// </summary>
+    /// <returns>Customer ID.</returns>
     public static async Task<int> GetCustomerId()
     {
         Console.Write("Enter ID of customer: ");
@@ -25,7 +28,10 @@ public static class IdHelper
         return customerId;
     }
 
-    // Helper method for getting orderId
+    /// <summary>
+    /// Helper method for getting orderId.
+    /// </summary>
+    /// <returns>Order ID (0 when failing)</returns>
     public static async Task<int> GetOrderId()
     {
         Console.Write("Enter order ID: ");
@@ -48,7 +54,10 @@ public static class IdHelper
         return orderId;
     }
     
-    // Helper method for getting productId
+    /// <summary>
+    /// Helper method for getting productId.
+    /// </summary>
+    /// <returns>Product ID (0 when failing).</returns>
     public static async Task<int> GetProductId()
     {
         Console.Write("Enter product ID: ");
@@ -70,7 +79,10 @@ public static class IdHelper
         return productId;
     }
     
-    // Helper method for getting categoryId
+    /// <summary>
+    /// Helper method for getting categoryId.
+    /// </summary>
+    /// <returns>Category ID (0 when failing).</returns>
     public static async Task<int> GetCategoryId()
     {
         Console.Write("Enter category ID: ");

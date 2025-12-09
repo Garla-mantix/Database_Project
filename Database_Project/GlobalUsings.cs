@@ -3,3 +3,5 @@ global using Microsoft.EntityFrameworkCore;
 global using Database_Project.Data;
 global using Database_Project.Helpers;
 global using System.ComponentModel.DataAnnotations;
+global using System.Security.Cryptography;
+global using System.Text;
