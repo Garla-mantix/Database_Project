@@ -8,6 +8,7 @@ public class ShopContext : DbContext
     public DbSet<OrderRow> OrderRows => Set<OrderRow>();
     public DbSet<Product> Products => Set<Product>();
     public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+    public DbSet<Admin> Admins => Set<Admin>();
     
     // Table for logging deleted customers
     public DbSet<DeletedCustomerLog> DeletedCustomersLog { get; set; }
@@ -26,6 +27,27 @@ public class ShopContext : DbContext
     // OnModelCreating (fine-tuning the model)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Admin
+        modelBuilder.Entity<Admin>(a =>
+        {
+            // PK
+            a.HasKey(e => e.AdminId);
+            
+            // Properties
+            a.Property(e => e.AdminUsername)
+                .IsRequired()
+                .HasMaxLength(50);
+            
+            a.Property(e => e.AdminPasswordHash)
+                .IsRequired();
+            
+            a.Property(e => e.AdminPasswordSalt)
+                .IsRequired();
+            
+            // UNIQUE-index for AdminUsername
+            a.HasIndex(e => e.AdminUsername).IsUnique();
+        });
+        
         // Customer
         modelBuilder.Entity<Customer>(c =>
         {

@@ -17,6 +17,33 @@ namespace Database_Project.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
 
+            modelBuilder.Entity("Database_Project.Models.Admin", b =>
+                {
+                    b.Property<int>("AdminId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("AdminPasswordHash")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("AdminPasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("AdminUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AdminId");
+
+                    b.HasIndex("AdminUsername")
+                        .IsUnique();
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("Database_Project.Models.CategorySalesView", b =>
                 {
                     b.Property<int>("ProductCategoryId")
