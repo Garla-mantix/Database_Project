@@ -85,25 +85,25 @@ public class SeedDb
                 new Customer
                 {
                     CustomerName = "Alex Baldwin",
-                    CustomerEmail = "bald@hotmail.com",
+                    CustomerEmail = EncryptionHelper.Encrypt("bald@hotmail.com"),
                     CustomerCity = "Stockholm"
                 },
                 new Customer
                 {
                     CustomerName = "Fred Wesley",
-                    CustomerEmail = "horn@gmail.com",
+                    CustomerEmail = EncryptionHelper.Encrypt("horn@gmail.com"),
                     CustomerCity = "New York"
                 },
                 new Customer
                 {
                     CustomerName = "Mock Customer",
-                    CustomerEmail = "mock@mock.com",
+                    CustomerEmail = EncryptionHelper.Encrypt("mock@mock.com"),
                     CustomerCity = "Göteborg"
                 },
                 new Customer
                 {
                     CustomerName = "Maceo Parker",
-                    CustomerEmail = "jbs@gmail.com",
+                    CustomerEmail = EncryptionHelper.Encrypt("jbs@gmail.com"),
                     CustomerCity = "Norrköping"
                 }
             );
@@ -121,7 +121,8 @@ public class SeedDb
             db.Orders.AddRange(
                 new Order
                 {
-                    CustomerId = customers.First(c => c.CustomerEmail == "bald@hotmail.com").CustomerId,
+                    CustomerId = customers.First(c => 
+                        c.CustomerEmail == EncryptionHelper.Encrypt("bald@hotmail.com")).CustomerId,
                     OrderDate = DateTime.Today.AddDays(-1),
                     OrderStatus = "Pending",
                     OrderRows = new List<OrderRow>
@@ -137,7 +138,8 @@ public class SeedDb
                 },
                 new Order
                 {
-                    CustomerId = customers.First(c => c.CustomerEmail == "horn@gmail.com").CustomerId,
+                    CustomerId = customers.First(c => 
+                        c.CustomerEmail == EncryptionHelper.Encrypt("horn@gmail.com")).CustomerId,
                     OrderDate = DateTime.Today.AddDays(-2),
                     OrderStatus = "Paid",
                     OrderRows = new List<OrderRow>
@@ -153,7 +155,8 @@ public class SeedDb
                 },
                 new Order
                 {
-                    CustomerId = customers.First(c => c.CustomerEmail == "mock@mock.com").CustomerId,
+                    CustomerId = customers.First(c => 
+                        c.CustomerEmail == EncryptionHelper.Encrypt("mock@mock.com")).CustomerId,
                     OrderDate = DateTime.Today.AddDays(-3),
                     OrderStatus = "Shipped",
                     OrderRows = new List<OrderRow>
@@ -169,7 +172,8 @@ public class SeedDb
                 },
                 new Order
                 {
-                    CustomerId = customers.First(c => c.CustomerEmail == "jbs@gmail.com").CustomerId,
+                    CustomerId = customers.First(c => 
+                        c.CustomerEmail == EncryptionHelper.Encrypt("jbs@gmail.com")).CustomerId,
                     OrderDate = DateTime.Today.AddDays(-4),
                     OrderStatus = "Shipped",
                     OrderRows = new List<OrderRow>
