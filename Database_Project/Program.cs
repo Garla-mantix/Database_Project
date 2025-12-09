@@ -3,6 +3,14 @@
 Console.WriteLine("DB: " + Path.Combine(AppContext.BaseDirectory, "ShopContext.db"));
 await SeedDb.SeedAsync();
 
+// -------------------------------------------- ADMIN LOGIN--------------------------------
+var loginSuccess = await AdminHelper.TryLoginAsync();
+if (!loginSuccess)
+{
+    Console.WriteLine("Exiting...");
+    return;
+}
+
 // -------------------------------------------- MAIN CLI ----------------------------------
 while (true)
 {
@@ -172,9 +180,11 @@ static async Task OrderListMenuAsync()
             break;
         case "4":
             Console.Write("Enter page: ");
-            var page = int.Parse(Console.ReadLine() ?? "1");
+            var pageInput = Console.ReadLine() ?? "1";
+            var page = int.TryParse(pageInput, out var p) && p > 0 ? p : 1;
             Console.Write("Enter page size: ");
-            var pageSize = int.Parse(Console.ReadLine() ?? "10");
+            var pageSizeInput = Console.ReadLine() ?? "10";
+            var pageSize = int.TryParse(pageSizeInput, out var ps) && ps > 0 ? ps : 10;
             await OrderHelper.ListOrdersPagedAsync(page, pageSize);
             break;
         case "5":

@@ -192,5 +192,27 @@ public class SeedDb
             await db.SaveChangesAsync();
             Console.WriteLine("Seeded orders with order rows!");
         }
+        
+        // Seeding Admin
+        if (!await db.Admins.AnyAsync())
+        {
+            const string username = "admin";
+            const string password = "securepassword";
+            
+            // Generating salt and hash for password with SHA512
+            using var hmac = new System.Security.Cryptography.HMACSHA512();
+            var salt = hmac.Key;
+            var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            
+            db.Admins.Add(new Admin
+            {
+                AdminUsername = username, 
+                AdminPasswordSalt = salt, 
+                AdminPasswordHash = hash
+            });
+            
+            await db.SaveChangesAsync();
+            Console.WriteLine("Seeded admin!");
+        }
     }
 }
