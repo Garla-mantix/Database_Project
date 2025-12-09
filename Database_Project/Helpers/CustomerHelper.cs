@@ -2,7 +2,9 @@ namespace Database_Project.Helpers;
 
 public static class CustomerHelper
 {
-    // Listing customers
+    /// <summary>
+    /// Lists customers.
+    /// </summary>
     public static async Task ListCustomersAsync()
     {
         await using var db = new ShopContext();
@@ -22,7 +24,9 @@ public static class CustomerHelper
         }
     }
     
-    // Adding customers
+    /// <summary>
+    /// Adds a new customer.
+    /// </summary>
     public static async Task AddCustomerAsync()
     {
         await using var db = new ShopContext();
@@ -69,7 +73,10 @@ public static class CustomerHelper
         }
     }
 
-    // Editing customers
+    /// <summary>
+    /// Edits a customer.
+    /// </summary>
+    /// <param name="customerId">ID of customer to be edited.</param>
     public static async Task EditCustomerAsync(int customerId)
     {
         await using var db = new ShopContext();
@@ -114,7 +121,10 @@ public static class CustomerHelper
         }
     }
 
-    // Deleting customer
+   /// <summary>
+   /// Deletes a customer.
+   /// </summary>
+   /// <param name="custId">ID of customer to be deleted.</param>
     public static async Task DeleteCustomerAsync(int custId)
     {
         await using var db = new ShopContext();
@@ -140,7 +150,10 @@ public static class CustomerHelper
         Console.WriteLine("Customer deleted!");
     }
     
-    // Searching for customer by name
+    /// <summary>
+    /// Searches for customers by name.
+    /// </summary>
+    /// <param name="search">Query to compare against customer names.</param>
     public static async Task SearchCustomerAsync(string search)
     {
         await using var  db = new ShopContext();
@@ -179,7 +192,9 @@ public static class CustomerHelper
         }
     }
     
-    // Show TRIGGER – Deleted Customers Log
+    /// <summary>
+    /// Shows deleted customers log (log created by trigger).
+    /// </summary>
     public static async Task ListDeletedCustomersAsync()
     {
         await using var db = new ShopContext();

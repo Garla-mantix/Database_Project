@@ -2,6 +2,9 @@ namespace Database_Project.Data;
 
 public class SeedDb
 {
+    /// <summary>
+    /// Seeds database with sample data.
+    /// </summary>
     public static async Task SeedAsync()
     {
         await using var db = new ShopContext();

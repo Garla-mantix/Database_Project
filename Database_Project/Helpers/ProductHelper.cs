@@ -2,7 +2,9 @@ namespace Database_Project.Helpers;
 
 public static class ProductHelper
 {
-    // Listing products
+    /// <summary>
+    /// Lists products.
+    /// </summary>
     public static async Task ListProductsAsync()
     {
         await using var db = new ShopContext();
@@ -31,7 +33,9 @@ public static class ProductHelper
         }
     }
     
-    // Adding products
+    /// <summary>
+    /// Adds a new product.
+    /// </summary>
     public static async Task AddProductAsync()
     {
         await using var db = new ShopContext();
@@ -90,7 +94,10 @@ public static class ProductHelper
         }
     }
     
-    // Editing products
+    /// <summary>
+    /// Edits a product.
+    /// </summary>
+    /// <param name="productId">ID of product to be edited.</param>
     public static async Task EditProductAsync(int productId)
     {
         await using var db = new ShopContext();
@@ -155,7 +162,10 @@ public static class ProductHelper
         }
     }
     
-    // Deleting products
+    /// <summary>
+    /// Deletes a product.
+    /// </summary>
+    /// <param name="prodId">ID of product to be deleted.</param>
     public static async Task DeleteProductAsync(int prodId)
     {
         await using var  db = new ShopContext();
@@ -167,7 +177,7 @@ public static class ProductHelper
             Console.WriteLine("Product not found.");
             return;
         }
-
+        
         var hasOrderRows = await db.OrderRows.AnyAsync(or => or.ProductId == prodId);
         if (hasOrderRows)
         {
@@ -188,7 +198,9 @@ public static class ProductHelper
         Console.WriteLine("Product deleted!");
     }
     
-    // VIEW - product sales
+    /// <summary>
+    /// VIEW - lists sales by product.
+    /// </summary>
     public static async Task ListProductSalesAsync()
     {
         await using var db = new ShopContext();

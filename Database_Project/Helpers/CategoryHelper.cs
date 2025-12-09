@@ -2,7 +2,9 @@ namespace Database_Project.Helpers;
 
 public static class CategoryHelper
 {
-    // Listing categories
+    /// <summary>
+    /// Lists categories.
+    /// </summary>
     public static async Task ListCategoriesAsync()
     {
         await using var db = new ShopContext();
@@ -29,7 +31,9 @@ public static class CategoryHelper
         }
     }
 
-    // Adding categories
+   /// <summary>
+   /// Adds a new category.
+   /// </summary>
     public static async Task AddCategoryAsync()
     {
         await using var db = new ShopContext();
@@ -42,6 +46,7 @@ public static class CategoryHelper
             return;
         }
 
+        // Fetch all categories to check if the name already exists
         var exists = await db.ProductCategories.AnyAsync(c => c.ProductCategoryName == categoryName);
         if (exists)
         {
@@ -74,7 +79,10 @@ public static class CategoryHelper
         }
     }
 
-    // Editing categories
+    /// <summary>
+    /// Edits a category.
+    /// </summary>
+    /// <param name="categoryId">ID of category to be edited</param>
     public static async Task EditCategoryAsync(int categoryId)
     {
         await using var db = new ShopContext();
@@ -123,7 +131,10 @@ public static class CategoryHelper
         Console.WriteLine("Category updated successfully!");
     }
 
-    // Deleting categories
+    /// <summary>
+    /// Deletes a category.
+    /// </summary>
+    /// <param name="categoryId">ID of category to be deleted.</param>
     public static async Task DeleteCategoryAsync(int categoryId)
     {
         await using var db = new ShopContext();
@@ -157,7 +168,9 @@ public static class CategoryHelper
         Console.WriteLine("Category deleted!");
     }
     
-    // VIEW - list category sales
+    /// <summary>
+    /// VIEW - lists sales by category.
+    /// </summary>
     public static async Task ListCategorySalesAsync()
     {
         await using var db = new ShopContext();
@@ -176,5 +189,4 @@ public static class CategoryHelper
             Console.WriteLine($"{cs.ProductCategoryName,-30} | {cs.TotalQuantity,-5} | {cs.TotalSales,-12:C}");
         }
     }
-
 }

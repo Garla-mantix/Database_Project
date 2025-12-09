@@ -4,6 +4,7 @@ Console.WriteLine("DB: " + Path.Combine(AppContext.BaseDirectory, "ShopContext.d
 await SeedDb.SeedAsync();
 
 // -------------------------------------------- ADMIN LOGIN--------------------------------
+
 var loginSuccess = await AdminHelper.TryLoginAsync();
 if (!loginSuccess)
 {
@@ -12,6 +13,7 @@ if (!loginSuccess)
 }
 
 // -------------------------------------------- MAIN CLI ----------------------------------
+
 while (true)
 {
     Console.WriteLine("\n ---- Welcome to the EFC Shop! ----");

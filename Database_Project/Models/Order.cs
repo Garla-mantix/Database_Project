@@ -17,7 +17,7 @@ public class Order
     [Required]
     public decimal OrderTotal { get; set; }
     
-    // List containing OrderRows
+    // List of OrderRows
     public List<OrderRow> OrderRows { get; set; } = new();
     
     // Navigation

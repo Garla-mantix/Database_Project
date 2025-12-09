@@ -11,6 +11,6 @@ public class ProductCategory
     [MaxLength(100)]
     public string? ProductCategoryDescription { get; set; }
     
-    // List of products in the category
+    // List of products
     public List<Product> Products { get; set; } = new();
 }
