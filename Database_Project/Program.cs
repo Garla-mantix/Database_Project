@@ -14,7 +14,7 @@ if (!loginSuccess)
 // -------------------------------------------- MAIN CLI ----------------------------------
 while (true)
 {
-    Console.WriteLine("\nWelcome to the EFC Shop!");
+    Console.WriteLine("\n ---- Welcome to the EFC Shop! ----");
     Console.WriteLine("1. Customers");
     Console.WriteLine("2. Orders");
     Console.WriteLine("3. Products");
@@ -50,7 +50,7 @@ while (true)
 // ------------------------------ Customer Menu
 static async Task CustomerMenuAsync()
 {
-    Console.WriteLine("\nCustomer Menu:");
+    Console.WriteLine("\n ---- Customer Menu ----");
     Console.WriteLine("1. List all customers");
     Console.WriteLine("2. Search for customer by name");
     Console.WriteLine("3. Add new customer");
@@ -98,12 +98,13 @@ static async Task CustomerMenuAsync()
 // ------------------------------ Order Menu
 static async Task OrderMenuAsync()
 {
-    Console.WriteLine("\nOrder Menu:");
+    Console.WriteLine("\n ---- Order Menu ----");
     Console.WriteLine("1. List orders");
     Console.WriteLine("2. Show order details for a specific order");
     Console.WriteLine("3. Add new order");
-    Console.WriteLine("4. Delete existing order");
-    Console.WriteLine("5. Back to main menu");
+    Console.WriteLine("4. Edit existing order");
+    Console.WriteLine("5. Delete existing order");
+    Console.WriteLine("6. Back to main menu");
 
     var choice = Console.ReadLine()?.Trim() ?? string.Empty;
 
@@ -121,11 +122,14 @@ static async Task OrderMenuAsync()
             await OrderHelper.AddOrderAsync();
             break;
         case "4":
+            await OrderHelper.UpdateOrderAsync();
+            break;
+        case "5":
             await OrderHelper.ListOrdersAsync();
             var ordId = await IdHelper.GetOrderId();
             await OrderHelper.DeleteOrderAsync(ordId);
             break;
-        case "5":
+        case "6":
             Console.WriteLine("Back to main menu...");
             break;
         default:
@@ -137,7 +141,7 @@ static async Task OrderMenuAsync()
 // ------------------------------ OrderList Menu
 static async Task OrderListMenuAsync()
 {
-    Console.WriteLine("\nList Orders Menu:");
+    Console.WriteLine("\n ---- List Orders Menu ----");
     Console.WriteLine("1. List all orders");
     Console.WriteLine("2. Filter orders by status");
     Console.WriteLine("3. Filter orders by customer");
@@ -199,7 +203,7 @@ static async Task OrderListMenuAsync()
 // ------------------------------ Product Menu
 static async Task ProductMenuAsync()
 {
-    Console.WriteLine("\nProduct Menu:");
+    Console.WriteLine("\n ---- Product Menu ----");
     Console.WriteLine("1. List all products");
     Console.WriteLine("2. Add new product");
     Console.WriteLine("3. Edit existing product");
@@ -242,7 +246,7 @@ static async Task ProductMenuAsync()
 // ------------------------------ Category Menu
 static async Task CategoryMenuAsync()
 {
-    Console.WriteLine("\nCategory Menu:");
+    Console.WriteLine("\n ---- Category Menu ----");
     Console.WriteLine("1. List all categories");
     Console.WriteLine("2. Add new category");
     Console.WriteLine("3. Edit existing category");
