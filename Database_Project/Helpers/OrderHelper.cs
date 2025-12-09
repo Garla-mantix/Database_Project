@@ -301,4 +301,198 @@ public static class OrderHelper
                               $"{order.OrderDate,-12:yyyy-MM-dd} | {order.OrderTotal,-12:C} | {order.OrderStatus,-12}");
         }
     }
+    
+    // Update order
+    public static async Task UpdateOrderAsync()
+    {
+        await using var db = new ShopContext();
+
+        // Select order
+        await ListOrdersAsync();
+        var orderId = await IdHelper.GetOrderId();
+        if (orderId == 0)
+        {
+            return;
+        }
+
+        var order = await db.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.OrderRows)
+                .ThenInclude(or => or.Product)
+            .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+        if (order == null)
+        {
+            Console.WriteLine("Order not found.");
+            return;
+        }
+
+        // Only allow updating pending orders
+        if (!string.Equals(order.OrderStatus, "Pending", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine("Only pending orders can be updated.");
+            return;
+        }
+
+        Console.WriteLine($"\nEditing order #{order.OrderId} for {order.Customer?.CustomerName} (Status: {order.OrderStatus})");
+
+        await using var transaction = await db.Database.BeginTransactionAsync();
+
+        try
+        {
+            bool done = false;
+            while (!done)
+            {
+                Console.WriteLine("\n1. Add product to order");
+                Console.WriteLine("2. Remove product from order");
+                Console.WriteLine("3. Save changes");
+                Console.Write("> ");
+                var choice = (Console.ReadLine() ?? string.Empty).Trim();
+
+                switch (choice)
+                {
+                    case "1":
+                        // Choose product
+                        await ProductHelper.ListProductsAsync();
+                        var productId = await IdHelper.GetProductId();
+                        if (productId == 0)
+                        {
+                            continue;
+                        }
+
+                        var product = await db.Products.FirstOrDefaultAsync(p => p.ProductId == productId);
+                        if (product == null || product.ProductsInStock <= 0)
+                        {
+                            Console.WriteLine("Product unavailable or out of stock.");
+                            continue;
+                        }
+
+                        // Choose quantity
+                        Console.Write("Enter quantity: ");
+                        var qInput = (Console.ReadLine() ?? string.Empty).Trim();
+                        if (!int.TryParse(qInput, out var qty) || qty <= 0)
+                        {
+                            Console.WriteLine("Invalid quantity.");
+                            continue;
+                        }
+
+                        if (qty > product.ProductsInStock)
+                        {
+                            Console.WriteLine($"Not enough stock. Only {product.ProductsInStock} available.");
+                            continue;
+                        }
+
+                        // If product already in order, update quantity instead of adding a new row
+                        var existingRow = order.OrderRows.FirstOrDefault(r => r.ProductId == productId);
+                        if (existingRow != null)
+                        {
+                            existingRow.OrderRowQuantity += qty;
+                            existingRow.OrderRowTotal += product.PricePerUnit * qty;
+                        }
+                        else
+                        {
+                            order.OrderRows.Add(new OrderRow
+                            {
+                                OrderId = order.OrderId,
+                                ProductId = productId,
+                                OrderRowQuantity = qty,
+                                OrderRowTotal = product.PricePerUnit * qty
+                            });
+                        }
+
+                        product.ProductsInStock -= qty;
+                        order.OrderTotal += product.PricePerUnit * qty;
+
+                        db.Products.Update(product);
+                        db.Orders.Update(order);
+                        await db.SaveChangesAsync();
+
+                        Console.WriteLine($"{qty} × {product.ProductName} added.");
+                        break;
+
+                    case "2":
+                        if (!order.OrderRows.Any())
+                        {
+                            Console.WriteLine("This order has no products to remove.");
+                            continue;
+                        }
+
+                        Console.WriteLine("\nCurrent products in order:");
+                        foreach (var row in order.OrderRows)
+                        {
+                            Console.WriteLine($"OrderRow ID: {row.OrderRowId} | " +
+                                              $"{row.Product!.ProductName} × {row.OrderRowQuantity} | " +
+                                              $"Total: {row.OrderRowTotal:C}");
+                        }
+
+                        Console.Write("Enter OrderRow ID to remove: ");
+                        var rowInput = (Console.ReadLine() ?? string.Empty).Trim();
+                        if (!int.TryParse(rowInput, out var rowId))
+                        {
+                            Console.WriteLine("Invalid ID.");
+                            continue;
+                        }
+
+                        var orderRow = order.OrderRows.FirstOrDefault(r => r.OrderRowId == rowId);
+                        if (orderRow == null)
+                        {
+                            Console.WriteLine("Order row not found.");
+                            continue;
+                        }
+
+                        var removedProduct = await db.Products.FindAsync(orderRow.ProductId);
+                        if (removedProduct != null)
+                        {
+                            removedProduct.ProductsInStock += orderRow.OrderRowQuantity;
+                            db.Products.Update(removedProduct);
+                        }
+
+                        order.OrderTotal -= orderRow.OrderRowTotal;
+                        db.OrderRows.Remove(orderRow);
+                        await db.SaveChangesAsync();
+
+                        Console.WriteLine($"Removed {orderRow.OrderRowQuantity} × {orderRow.Product?.ProductName} " +
+                                          $"from order.");
+                        break;
+
+                    case "3":
+                        Console.Write("Save changes? (y/n): ");
+                        var confirm = (Console.ReadLine() ?? string.Empty).Trim().ToLower();
+                        if (confirm == "y")
+                        {
+                            // If no rows left, cancel entire order
+                            if (!order.OrderRows.Any())
+                            {
+                                db.Orders.Remove(order);
+                                await db.SaveChangesAsync();
+                                await transaction.CommitAsync();
+                                Console.WriteLine("Order cancelled: no products remain in the order.");
+                                return;
+                            }
+
+                            await db.SaveChangesAsync();
+                            await transaction.CommitAsync();
+                            Console.WriteLine($"Order updated successfully! New total: {order.OrderTotal:C}");
+                            await OrderDetailsAsync(order.OrderId);
+                            done = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Changes discarded.");
+                            return;
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        break;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync();
+            Console.WriteLine("Error updating order: " + ex.Message);
+        }
+    }
 }
