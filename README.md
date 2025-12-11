@@ -38,25 +38,25 @@ When only using hashing, common passwords gets the same hash, creating a securit
 ### Encryption
 Application-level encryption is applied to sensitive customer data.
 *   **Field**: `Customer.CustomerEmail`.
-*   **Implementation**: A custom `EncryptionHelper` class performs XOR encryption before saving to the database and decryption when reading back to the UI.
+*   **Implementation**: The `EncryptionHelper` class performs XOR encryption before saving to the database and decryption when reading back to the UI.
 <br>
 
 ## Transactions
 
 ### Order Processing
-*   **Stock Management**: When an order is placed, the system checks `ProductsInStock`. If sufficient, the stock is decremented immediately.
+*   **Stock Management**: When an order is placed, the system checks `ProductsInStock`. If sufficient, the stock is decremented.
 *   **Transactions**: The entire order placement process (creating the order, adding rows, updating stock) is wrapped in an **EF Core Transaction**. If any step fails (e.g., insufficient stock for the second item), `RollbackAsync()` is called, reverting all changes.
 
 ### Optimization & Pagination
-*   **Pagination**: The `ListOrdersPagedAsync` method implements pagination using `.Skip()` and `.Take()` in LINQ.
-*   **Sorting**: Orders are sorted by multiple columns implicitly or explicitly in different views (e.g. by Date descending).
+*   **Pagination**: The `ListOrdersPagedAsync` method implements pagination using `.Skip()` and `.Take()`.
+*   **Sorting and filtering**: Orders are sorted and filtered by multiple columns implicitly or explicitly in different views (e.g. orders per customer).
 *   **Optimized Reading**: `AsNoTracking()` is used for read-only lists (like product catalogs) to improve performance.
 <br>
 
 ## Database Objects
 
 ### Trigger
-A SQL trigger `trg_LogDeletedCustomer` is implemented to create a log for deletions.
+The SQL trigger `trg_LogDeletedCustomer` is implemented to create a log for deletions.
 *   **Function**: When a `Customer` is deleted, their details are automatically inserted into a `DeletedCustomersLog` table.
 *   **Usage**: Accessible via the "View deleted customers log" menu option.
 
@@ -67,12 +67,13 @@ Two SQL views were created to simplify sales reporting:
 *   **Usage**: These are mapped to Keyless Entity Types (`ProductSalesView`, `CategorySalesView`) in EF Core, allowing efficient querying for sales reports.
 
 ## Known Limitations
-* Only one seeded admin account and no CRUD for new or existing admins.
+* Only one seeded admin account and no CRUD functionality for new or existing admins.
 * Only basic XOR encryption using Base64 for emails.
 * Order status is a static propery which never changes.
 * Limited usability of the paginated listing of orders since we cannot jump between pages.
 * Currently only filtered listing for orders, not for products etc. (E.g. filtering products by category could be useful).
 * Search is only implemented for customer names.
+* No indexing for increased performance yet.
 
 ## How to use
 1. Install the .NET 8 SDK.
