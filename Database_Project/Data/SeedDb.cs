@@ -1,6 +1,6 @@
 namespace Database_Project.Data;
 
-public class SeedDb
+public static class SeedDb
 {
     /// <summary>
     /// Seeds database with sample data.
@@ -203,9 +203,9 @@ public class SeedDb
             const string password = "securepassword";
             
             // Generating salt and hash for password with SHA512
-            using var hmac = new System.Security.Cryptography.HMACSHA512();
+            using var hmac = new HMACSHA512();
             var salt = hmac.Key;
-            var hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             
             db.Admins.Add(new Admin
             {
