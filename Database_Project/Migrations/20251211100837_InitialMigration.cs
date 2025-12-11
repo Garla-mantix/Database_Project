@@ -12,6 +12,21 @@ namespace Database_Project.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Admins",
+                columns: table => new
+                {
+                    AdminId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    AdminUsername = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    AdminPasswordHash = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    AdminPasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Admins", x => x.AdminId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -27,13 +42,27 @@ namespace Database_Project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DeletedCustomersLog",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CustomerName = table.Column<string>(type: "TEXT", nullable: false),
+                    CustomerEmail = table.Column<string>(type: "TEXT", nullable: true),
+                    CustomerCity = table.Column<string>(type: "TEXT", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCategories",
                 columns: table => new
                 {
                     ProductCategoryId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     ProductCategoryName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    ProductCategoryDescription = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    ProductCategoryDescription = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,6 +142,12 @@ namespace Database_Project.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Admins_AdminUsername",
+                table: "Admins",
+                column: "AdminUsername",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customers_CustomerEmail",
                 table: "Customers",
                 column: "CustomerEmail",
@@ -143,11 +178,23 @@ namespace Database_Project.Migrations
                 name: "IX_Products_ProductCategoryId",
                 table: "Products",
                 column: "ProductCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_ProductName",
+                table: "Products",
+                column: "ProductName",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Admins");
+
+            migrationBuilder.DropTable(
+                name: "DeletedCustomersLog");
+
             migrationBuilder.DropTable(
                 name: "OrderRows");
 

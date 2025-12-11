@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database_Project.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20251202132326_InitialMigration")]
+    [Migration("20251211100837_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -19,6 +19,53 @@ namespace Database_Project.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.11");
+
+            modelBuilder.Entity("Database_Project.Models.Admin", b =>
+                {
+                    b.Property<int>("AdminId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<byte[]>("AdminPasswordHash")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<byte[]>("AdminPasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("BLOB");
+
+                    b.Property<string>("AdminUsername")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AdminId");
+
+                    b.HasIndex("AdminUsername")
+                        .IsUnique();
+
+                    b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("Database_Project.Models.CategorySalesView", b =>
+                {
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("TotalSales")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("CategorySales", (string)null);
+                });
 
             modelBuilder.Entity("Database_Project.Models.Customer", b =>
                 {
@@ -46,6 +93,27 @@ namespace Database_Project.Migrations
                         .IsUnique();
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Database_Project.Models.DeletedCustomerLog", b =>
+                {
+                    b.Property<string>("CustomerCity")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("DeletedCustomersLog", (string)null);
                 });
 
             modelBuilder.Entity("Database_Project.Models.Order", b =>
@@ -125,6 +193,9 @@ namespace Database_Project.Migrations
 
                     b.HasIndex("ProductCategoryId");
 
+                    b.HasIndex("ProductName")
+                        .IsUnique();
+
                     b.ToTable("Products");
                 });
 
@@ -135,7 +206,6 @@ namespace Database_Project.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ProductCategoryDescription")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
@@ -150,6 +220,33 @@ namespace Database_Project.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductCategories");
+                });
+
+            modelBuilder.Entity("Database_Project.Models.ProductSalesView", b =>
+                {
+                    b.Property<decimal>("PricePerUnit")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProductCategoryName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TotalQuantity")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("TotalSales")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("ProductSales", (string)null);
                 });
 
             modelBuilder.Entity("Database_Project.Models.Order", b =>

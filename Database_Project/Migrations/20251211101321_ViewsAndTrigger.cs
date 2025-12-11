@@ -5,25 +5,11 @@
 namespace Database_Project.Migrations
 {
     /// <inheritdoc />
-    public partial class ViewsAndTriggerUpdated : Migration
+    public partial class ViewsAndTrigger : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-             // DeletedCustomersLog table
-            migrationBuilder.CreateTable(
-                name: "DeletedCustomersLog",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CustomerName = table.Column<string>(type: "TEXT", nullable: false),
-                    CustomerEmail = table.Column<string>(type: "TEXT", nullable: true),
-                    CustomerCity = table.Column<string>(type: "TEXT", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table => { }
-            );
-            
             migrationBuilder.Sql(@"
             CREATE TRIGGER IF NOT EXISTS trg_LogDeletedCustomer
             AFTER DELETE ON Customers
@@ -62,14 +48,12 @@ namespace Database_Project.Migrations
             GROUP BY pc.ProductCategoryId, pc.ProductCategoryName;
             ");
 
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "DeletedCustomersLog");
-            
             migrationBuilder.Sql(@"
             DROP VIEW IF EXISTS CategorySales;
             ");
