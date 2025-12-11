@@ -12,18 +12,17 @@ The system follows a 3rd Normal Form (3NF) relational structure and consists of 
 *   **OrderRow** `(N:1)` **Product**: Each order row refers to one specific product.
 *   **Product** `(N:1)` **ProductCategory**: A product belongs to one category.
 *   **Admin**: A standalone table for administrative access.
+<br>
 
 <img width="1100" height="808" alt="ER-diagram" src="https://github.com/user-attachments/assets/0d12a87b-cd7b-4b0b-a02d-85255a813984" />
 
-## Core CRUD Functionality
-
+### Core CRUD Functionality
 All operations use EF Core with LINQ for querying and filtering.
-
-### Implementation
 *   **Create**: Create customers, orders, products and categories, with validation checks for empty names and duplicates.
 *   **Read**: Listings with joined data (e.g., Product with Category name). Search functionality for customer names.
 *   **Update**: Allows partial updates (updating price without changing name), and correctly adjusts stock count for products when orders change.
 *   **Delete**: Protected by validation (cannot delete a category containing products). Trigger logs customer deletions.
+<br>
 
 ## Security
 
@@ -39,6 +38,7 @@ When only using hashing, common passwords gets the same hash, creating a securit
 Application-level encryption is applied to sensitive customer data.
 *   **Field**: `Customer.CustomerEmail`.
 *   **Implementation**: A custom `EncryptionHelper` class performs XOR encryption before saving to the database and decryption when reading back to the UI.
+<br>
 
 ## Transactions
 
@@ -50,6 +50,7 @@ Application-level encryption is applied to sensitive customer data.
 *   **Pagination**: The `ListOrdersPagedAsync` method implements pagination using `.Skip()` and `.Take()` in LINQ.
 *   **Sorting**: Orders are sorted by multiple columns implicitly or explicitly in different views (e.g. by Date descending).
 *   **Optimized Reading**: `AsNoTracking()` is used for read-only lists (like product catalogs) to improve performance.
+<br>
 
 ## Database Objects
 
