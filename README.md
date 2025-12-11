@@ -73,7 +73,7 @@ Two SQL views were created to simplify sales reporting:
 * Limited usability of the paginated listing of orders since we cannot jump between pages.
 * Currently only filtered listing for orders, not for products etc. (E.g. filtering products by category could be useful).
 * Search is only implemented for customer names.
-* No indexing for increased performance yet.
+* No extensive indexing for increased performance yet.
 
 ## How to use
 1. Install the .NET 8 SDK.
