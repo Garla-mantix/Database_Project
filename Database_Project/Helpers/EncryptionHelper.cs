@@ -18,7 +18,7 @@ public static class EncryptionHelper
         }
         
         // Converts text to bytes and store in a new array
-        var bytes = System.Text.Encoding.UTF8.GetBytes(text);
+        var bytes = Encoding.UTF8.GetBytes(text);
         
         // Transforms bytes with XOR
         for (var i = 0; i < bytes.Length; i++)
@@ -52,6 +52,6 @@ public static class EncryptionHelper
         }
         
         // Converts bytes back to string
-        return System.Text.Encoding.UTF8.GetString(bytes);
+        return Encoding.UTF8.GetString(bytes);
     }
 }
