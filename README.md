@@ -3,6 +3,7 @@
 ## Overview
 EFC Shop is a .NET 8 console application that manages customers, products, orders, and categories using Entity Framework Core and SQLite.
 It demonstrates relational modeling, CRUD operations, transactions, database triggers and views, as well as encryption.
+The shop mimicks a webshop for music media like CD's, vinyl, cassettes etc.
 
 ### ER Model
 The system follows a 3rd Normal Form (3NF) relational structure and consists of the following entities and relationships:
